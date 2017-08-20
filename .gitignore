@@ -99,3 +99,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+./assignment 1/ml*
+*.pdf
