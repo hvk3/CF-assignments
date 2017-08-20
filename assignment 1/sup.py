@@ -2,19 +2,22 @@ import aux
 import numpy as np
 import os
 
-# dataset_root = 'ml-100k'
-# users_filename = 'u.user'
-# movies_filename = 'u.item'
+dataset_root = 'ml-100k'
+users_filename = 'u.user'
+movies_filename = 'u.item'
 
-dataset_root = 'ml-1m'
-users_filename = 'users.dat'
-movies_filename = 'movies.dat'
-ratings_filename = 'ratings.dat'
+# dataset_root = 'ml-1m'
+# users_filename = 'users.dat'
+# movies_filename = 'movies.dat'
+# ratings_filename = 'ratings.dat'
 
 global_user_average_ratings = np.zeros((1000000))
 global_item_average_ratings = np.zeros((1000000))
 global_user_variance_weights = np.zeros((1000000))
 global_item_variance_weights = np.zeros((1000000))
+
+user_category_matrix = aux.get_user_category_matrix(users_filename, movies_filename, ratings_filename)
+item_category_matrix = aux.get_item_category_matrix(movies_filename)
 
 def get_average_ratings(matrix):	# Computes the average ratings for all users and items
 	num_users = matrix.shape[0]
@@ -92,8 +95,8 @@ def get_Pearson_coefficient(matrix, user_1 = None, user_2 = None, item_1 = None,
 				common_users_rating += 1
 				Pearson_coefficient_numerator += (matrix[user][item_1] - average_rating_item_1) * \
 					(matrix[user][item_2] - average_rating_item_2) * multiplying_factor
-				Pearson_coefficient_partial_denominator_1 += ((matrix[user][item_1] - average_rating_item_1) ** 2)
-				Pearson_coefficient_partial_denominator_2 += ((matrix[user][item_2] - average_rating_item_2) ** 2)
+				Pearson_coefficient_partial_denominator_1 += (multiplying_factor * (matrix[user][item_1] - average_rating_item_1) ** 2)
+				Pearson_coefficient_partial_denominator_2 += (multiplying_factor * (matrix[user][item_2] - average_rating_item_2) ** 2)
 
 	if (apply_similarity_weighting):
 		if (num_co_rated_item > common_users_rating + common_items_rated):
@@ -108,6 +111,10 @@ def get_Pearson_coefficient(matrix, user_1 = None, user_2 = None, item_1 = None,
 	else:
 		cache[item_1][item_2] = PC
 	return PC
+
+# def get_Pearson_coefficient_implicit_user_based(matrix, user_1, user_2, cache = None):
+# 	if (cache[user_1][user_2] > -10):
+		
 
 def get_Pearson_coefficient_explicit_user_based(matrix, user_1, user_2, apply_variance_weighting = False, apply_similarity_weighting = False, cache = None, num_co_rated_items = 0):
 	return get_Pearson_coefficient(matrix, user_1, user_2, None, None, apply_variance_weighting, apply_similarity_weighting, num_co_rated_items, cache)
@@ -161,7 +168,7 @@ def get_item_based_explicit_ratings_prediction(matrix, user, item, apply_varianc
 	num, denom = 0, 0
 	for other_item in xrange(num_items):
 		if (matrix[user][other_item] != 0):
-			similarity = get_Pearson_coefficient_explicit_item_based(matrix, user, other_item, apply_variance_weighting, cache)
+			similarity = get_Pearson_coefficient_explicit_item_based(matrix, item, other_item, apply_variance_weighting, cache)
 			average_other_item_rating = global_item_average_ratings[other_item]
 			denom += np.absolute(similarity)
 			num += similarity * (matrix[user][other_item] - average_other_item_rating)
@@ -178,14 +185,11 @@ def get_ith_training_test_data(i):
 	if ('1m' in dataset_root):
 		ratings = aux.get_ratings(os.path.join(dataset_root, ratings_filename))
 		num_ratings = len(ratings)
-		# print ((i - 1) * num_ratings / 5), (i) * num_ratings / 5 - 1
 		ith_dataset = ratings[(i - 1) * num_ratings / 5 : i * num_ratings / 5 - 1]
 		ith_training_set = ith_dataset[: 4 * len(ith_dataset) / 5]
-		# print len(ith_training_set)
 		ith_fold_user_item_matrix = np.zeros((6500, 4000))
 		for rating in ratings:
 			ith_fold_user_item_matrix[rating.user_id - 1][rating.item_id - 1] = rating.rating
-		# import pdb;pdb.set_trace()
 		ith_fold_ratings = ith_dataset[4 * len(ith_dataset) / 5 :]
 	else:
 		ith_fold_user_item_matrix = aux.get_user_item_matrix(os.path.join(dataset_root, 'u' + str(i) + '.base'))
