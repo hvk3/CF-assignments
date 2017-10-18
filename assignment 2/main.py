@@ -35,9 +35,8 @@ if __name__ == '__main__':
 		for epoch in xrange(num_epochs):
 			print 'Epoch ' + str(epoch + 1) + ' ->',
 			aux.train_net(net, train_data)
-		import pdb;pdb.set_trace()
 		if (user_AE):
-			model.save_state_dict('userAE_' + str(l + 1) + '.pt')
+			aux.torch.save(net, 'userAE_' + str(l + 1) + '.pt')
 		else:
-			model.save_state_dict('itemAE_' + str(l + 1) + '.pt')
-		print 'NMAE for u' + str(l + 1) + '.base :', aux.test_net(net, test_ratings, user_AE)
+			aux.torch.save(net, 'itemAE_' + str(l + 1) + '.pt')
+		print 'NMAE for u' + str(l + 1) + '.base :', aux.test_net(net, train_data, test_ratings, user_AE)
