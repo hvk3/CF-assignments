@@ -1,0 +1,375 @@
+Number of latent factors: 5
+Regularizer: 0.01
+NMAE for u1.base : 0.200492270676
+Number of latent factors: 5
+Regularizer: 0.03
+NMAE for u1.base : 0.198033358886
+Number of latent factors: 5
+Regularizer: 0.05
+NMAE for u1.base : 0.196120392966
+Number of latent factors: 5
+Regularizer: 0.07
+NMAE for u1.base : 0.194031749671
+Number of latent factors: 5
+Regularizer: 0.09
+NMAE for u1.base : 0.194036638593
+Number of latent factors: 7
+Regularizer: 0.01
+NMAE for u1.base : 0.209877533966
+Number of latent factors: 7
+Regularizer: 0.03
+NMAE for u1.base : 0.202049663118
+Number of latent factors: 7
+Regularizer: 0.05
+NMAE for u1.base : 0.202322970144
+Number of latent factors: 7
+Regularizer: 0.07
+NMAE for u1.base : 0.200123546186
+Number of latent factors: 7
+Regularizer: 0.09
+NMAE for u1.base : 0.199179912339
+Number of latent factors: 9
+Regularizer: 0.01
+NMAE for u1.base : 0.219199325037
+Number of latent factors: 9
+Regularizer: 0.03
+NMAE for u1.base : 0.212530213125
+Number of latent factors: 9
+Regularizer: 0.05
+NMAE for u1.base : 0.204717453643
+Number of latent factors: 9
+Regularizer: 0.07
+NMAE for u1.base : 0.202222292752
+Number of latent factors: 9
+Regularizer: 0.09
+NMAE for u1.base : 0.202810842697
+Number of latent factors: 11
+Regularizer: 0.01
+NMAE for u1.base : 0.221028188303
+Number of latent factors: 11
+Regularizer: 0.03
+NMAE for u1.base : 0.216228942929
+Number of latent factors: 11
+Regularizer: 0.05
+NMAE for u1.base : 0.209263013993
+Number of latent factors: 11
+Regularizer: 0.07
+NMAE for u1.base : 0.208639271968
+Number of latent factors: 11
+Regularizer: 0.09
+NMAE for u1.base : 0.210209021431
+Number of latent factors: 13
+Regularizer: 0.01
+NMAE for u1.base : 0.236517260135
+Number of latent factors: 13
+Regularizer: 0.03
+NMAE for u1.base : 0.224230450146
+Number of latent factors: 13
+Regularizer: 0.05
+NMAE for u1.base : 0.221798190959
+Number of latent factors: 13
+Regularizer: 0.07
+NMAE for u1.base : 0.21761183225
+Number of latent factors: 13
+Regularizer: 0.09
+NMAE for u1.base : 0.215343780069
+Number of latent factors: 5
+Regularizer: 0.01
+NMAE for u2.base : 0.213188430294
+Number of latent factors: 5
+Regularizer: 0.03
+NMAE for u2.base : 0.192737594482
+Number of latent factors: 5
+Regularizer: 0.05
+NMAE for u2.base : 0.19618584602
+Number of latent factors: 5
+Regularizer: 0.07
+NMAE for u2.base : 0.18860959814
+Number of latent factors: 5
+Regularizer: 0.09
+NMAE for u2.base : 0.1904654032
+Number of latent factors: 7
+Regularizer: 0.01
+NMAE for u2.base : 0.206873746715
+Number of latent factors: 7
+Regularizer: 0.03
+NMAE for u2.base : 0.195876326182
+Number of latent factors: 7
+Regularizer: 0.05
+NMAE for u2.base : 0.194029116812
+Number of latent factors: 7
+Regularizer: 0.07
+NMAE for u2.base : 0.193387578251
+Number of latent factors: 7
+Regularizer: 0.09
+NMAE for u2.base : 0.194780278593
+Number of latent factors: 9
+Regularizer: 0.01
+NMAE for u2.base : 0.208581790807
+Number of latent factors: 9
+Regularizer: 0.03
+NMAE for u2.base : 0.206116481314
+Number of latent factors: 9
+Regularizer: 0.05
+NMAE for u2.base : 0.203009550915
+Number of latent factors: 9
+Regularizer: 0.07
+NMAE for u2.base : 0.199454372075
+Number of latent factors: 9
+Regularizer: 0.09
+NMAE for u2.base : 0.198150711326
+Number of latent factors: 11
+Regularizer: 0.01
+NMAE for u2.base : 0.216861128569
+Number of latent factors: 11
+Regularizer: 0.03
+NMAE for u2.base : 0.214109987069
+Number of latent factors: 11
+Regularizer: 0.05
+NMAE for u2.base : 0.209950588683
+Number of latent factors: 11
+Regularizer: 0.07
+NMAE for u2.base : 0.207277580622
+Number of latent factors: 11
+Regularizer: 0.09
+NMAE for u2.base : 0.203889998305
+Number of latent factors: 13
+Regularizer: 0.01
+NMAE for u2.base : 0.228256748818
+Number of latent factors: 13
+Regularizer: 0.03
+NMAE for u2.base : 0.218414973327
+Number of latent factors: 13
+Regularizer: 0.05
+NMAE for u2.base : 0.214399094532
+Number of latent factors: 13
+Regularizer: 0.07
+NMAE for u2.base : 0.214489027295
+Number of latent factors: 13
+Regularizer: 0.09
+NMAE for u2.base : 0.2135837604
+Number of latent factors: 5
+Regularizer: 0.01
+NMAE for u3.base : 0.201387973093
+Number of latent factors: 5
+Regularizer: 0.03
+NMAE for u3.base : 0.18978166119
+Number of latent factors: 5
+Regularizer: 0.05
+NMAE for u3.base : 0.192405920658
+Number of latent factors: 5
+Regularizer: 0.07
+NMAE for u3.base : 0.192118407599
+Number of latent factors: 5
+Regularizer: 0.09
+NMAE for u3.base : 0.189211078009
+Number of latent factors: 7
+Regularizer: 0.01
+NMAE for u3.base : 0.2019177463
+Number of latent factors: 7
+Regularizer: 0.03
+NMAE for u3.base : 0.19611746361
+Number of latent factors: 7
+Regularizer: 0.05
+NMAE for u3.base : 0.192994338464
+Number of latent factors: 7
+Regularizer: 0.07
+NMAE for u3.base : 0.197052329262
+Number of latent factors: 7
+Regularizer: 0.09
+NMAE for u3.base : 0.196266063226
+Number of latent factors: 9
+Regularizer: 0.01
+NMAE for u3.base : 0.209630198807
+Number of latent factors: 9
+Regularizer: 0.03
+NMAE for u3.base : 0.202559340556
+Number of latent factors: 9
+Regularizer: 0.05
+NMAE for u3.base : 0.203736412614
+Number of latent factors: 9
+Regularizer: 0.07
+NMAE for u3.base : 0.19973187396
+Number of latent factors: 9
+Regularizer: 0.09
+NMAE for u3.base : 0.200990517941
+Number of latent factors: 11
+Regularizer: 0.01
+NMAE for u3.base : 0.219427208955
+Number of latent factors: 11
+Regularizer: 0.03
+NMAE for u3.base : 0.210033015463
+Number of latent factors: 11
+Regularizer: 0.05
+NMAE for u3.base : 0.210068704096
+Number of latent factors: 11
+Regularizer: 0.07
+NMAE for u3.base : 0.205853750095
+Number of latent factors: 11
+Regularizer: 0.09
+NMAE for u3.base : 0.206746670856
+Number of latent factors: 13
+Regularizer: 0.01
+NMAE for u3.base : 0.229455973616
+Number of latent factors: 13
+Regularizer: 0.03
+NMAE for u3.base : 0.214725970265
+Number of latent factors: 13
+Regularizer: 0.05
+NMAE for u3.base : 0.215014810937
+Number of latent factors: 13
+Regularizer: 0.07
+NMAE for u3.base : 0.213548053002
+Number of latent factors: 13
+Regularizer: 0.09
+NMAE for u3.base : 0.215286708765
+Number of latent factors: 5
+Regularizer: 0.01
+NMAE for u4.base : 0.25172287159
+Number of latent factors: 5
+Regularizer: 0.03
+NMAE for u4.base : 0.198795688008
+Number of latent factors: 5
+Regularizer: 0.05
+NMAE for u4.base : 0.190842823826
+Number of latent factors: 5
+Regularizer: 0.07
+NMAE for u4.base : 0.193176264572
+Number of latent factors: 5
+Regularizer: 0.09
+NMAE for u4.base : 0.193763955026
+Number of latent factors: 7
+Regularizer: 0.01
+NMAE for u4.base : 0.205714177763
+Number of latent factors: 7
+Regularizer: 0.03
+NMAE for u4.base : 0.202371322273
+Number of latent factors: 7
+Regularizer: 0.05
+NMAE for u4.base : 0.194391931819
+Number of latent factors: 7
+Regularizer: 0.07
+NMAE for u4.base : 0.198729202398
+Number of latent factors: 7
+Regularizer: 0.09
+NMAE for u4.base : 0.196253178164
+Number of latent factors: 9
+Regularizer: 0.01
+NMAE for u4.base : 0.210359134627
+Number of latent factors: 9
+Regularizer: 0.03
+NMAE for u4.base : 0.208791089642
+Number of latent factors: 9
+Regularizer: 0.05
+NMAE for u4.base : 0.203595559871
+Number of latent factors: 9
+Regularizer: 0.07
+NMAE for u4.base : 0.20316609486
+Number of latent factors: 9
+Regularizer: 0.09
+NMAE for u4.base : 0.203047799485
+Number of latent factors: 11
+Regularizer: 0.01
+NMAE for u4.base : 0.223452689109
+Number of latent factors: 11
+Regularizer: 0.03
+NMAE for u4.base : 0.214304765461
+Number of latent factors: 11
+Regularizer: 0.05
+NMAE for u4.base : 0.211171820369
+Number of latent factors: 11
+Regularizer: 0.07
+NMAE for u4.base : 0.210270466121
+Number of latent factors: 11
+Regularizer: 0.09
+NMAE for u4.base : 0.207376182715
+Number of latent factors: 13
+Regularizer: 0.01
+NMAE for u4.base : 0.227089465407
+Number of latent factors: 13
+Regularizer: 0.03
+NMAE for u4.base : 0.218785601411
+Number of latent factors: 13
+Regularizer: 0.05
+NMAE for u4.base : 0.21639360344
+Number of latent factors: 13
+Regularizer: 0.07
+NMAE for u4.base : 0.211614003764
+Number of latent factors: 13
+Regularizer: 0.09
+NMAE for u4.base : 0.21344254876
+Number of latent factors: 5
+Regularizer: 0.01
+NMAE for u5.base : 0.208293424933
+Number of latent factors: 5
+Regularizer: 0.03
+NMAE for u5.base : 0.195359278401
+Number of latent factors: 5
+Regularizer: 0.05
+NMAE for u5.base : 0.194871293535
+Number of latent factors: 5
+Regularizer: 0.07
+NMAE for u5.base : 0.196202579498
+Number of latent factors: 5
+Regularizer: 0.09
+NMAE for u5.base : 0.199324396987
+Number of latent factors: 7
+Regularizer: 0.01
+NMAE for u5.base : 0.209568616506
+Number of latent factors: 7
+Regularizer: 0.03
+NMAE for u5.base : 0.201549825605
+Number of latent factors: 7
+Regularizer: 0.05
+NMAE for u5.base : 0.200773485523
+Number of latent factors: 7
+Regularizer: 0.07
+NMAE for u5.base : 0.202127138026
+Number of latent factors: 7
+Regularizer: 0.09
+NMAE for u5.base : 0.199324692354
+Number of latent factors: 9
+Regularizer: 0.01
+NMAE for u5.base : 0.214622239284
+Number of latent factors: 9
+Regularizer: 0.03
+NMAE for u5.base : 0.210029385514
+Number of latent factors: 9
+Regularizer: 0.05
+NMAE for u5.base : 0.204913557119
+Number of latent factors: 9
+Regularizer: 0.07
+NMAE for u5.base : 0.205314299141
+Number of latent factors: 9
+Regularizer: 0.09
+NMAE for u5.base : 0.203268775026
+Number of latent factors: 11
+Regularizer: 0.01
+NMAE for u5.base : 0.225310813359
+Number of latent factors: 11
+Regularizer: 0.03
+NMAE for u5.base : 0.215887231302
+Number of latent factors: 11
+Regularizer: 0.05
+NMAE for u5.base : 0.211489212555
+Number of latent factors: 11
+Regularizer: 0.07
+NMAE for u5.base : 0.209990370675
+Number of latent factors: 11
+Regularizer: 0.09
+NMAE for u5.base : 0.209283061773
+Number of latent factors: 13
+Regularizer: 0.01
+NMAE for u5.base : 0.230837234003
+Number of latent factors: 13
+Regularizer: 0.03
+NMAE for u5.base : 0.218942238615
+Number of latent factors: 13
+Regularizer: 0.05
+NMAE for u5.base : 0.220264878042
+Number of latent factors: 13
+Regularizer: 0.07
+NMAE for u5.base : 0.217612867658
+Number of latent factors: 13
+Regularizer: 0.09
+NMAE for u5.base : 0.214594910606

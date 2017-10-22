@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim
+import torch.utils.data
 from torch.autograd import Variable
 import time
 
@@ -17,8 +18,8 @@ class Net(nn.Module):
 		self.fcn2 = nn.Linear(k, input_shape)
 
 	def forward(self, i):
-		V = self.fcn1(i)
-		W = self.fcn2(F.sigmoid(V))
+		V = F.sigmoid(self.fcn1(i))
+		W = self.fcn2(V)
 		return W
 
 	def se_loss(self, i, o):
@@ -77,43 +78,56 @@ def generate_user_item_matrix(ratings, num_users, num_items):
 def np_variable(var, requires_grad = False):
 	return Variable(torch.from_numpy(np.array(var)), requires_grad = requires_grad).float()
 
-def train_net(net, train_data, regularizer = 0.1):
-	net.train()
+def train_net(net, train_data, regularizer):
+	optimizer = torch.optim.SGD(net.parameters(), lr = 1e-2)
+	loss = 0
 	if (torch.cuda.is_available()):
 		net.cuda()
-	optimizer = torch.optim.SGD(net.parameters(), lr = 1e-2, momentum = 0.5)
-	loss = 0
-	# import pdb;pdb.set_trace()
-	for training_sample in train_data:
+		kwargs = {'num_workers':4, 'pin_memory':True}
+	else:
+		kwargs = {}
+	train_loader = torch.utils.data.DataLoader(train_data, batch_size = 16, shuffle = True, **kwargs)
+	for _, batch_data in enumerate(train_loader):
+		masks = np_variable(np.array([map(lambda x: (x != 0) * 1., training_sample) for training_sample in batch_data]))
+		import pdb;pdb.set_trace()
+		if (torch.cuda.is_available()):
+			batch_data = batch_data.cuda()
+		batch_data = np_variable(batch_data.numpy(), requires_grad = True)
+		V_sq_norm = np.linalg.norm(net.fcn1.weight.data.numpy(), ord = 'fro') ** 2
+		W_sq_norm = np.linalg.norm(net.fcn2.weight.data.numpy(), ord = 'fro') ** 2
 		optimizer.zero_grad()
-		mask = map(lambda x: (x != 0) * 1., training_sample)
-		i = np_variable(training_sample)
-		if (torch.cuda.is_available()):
-			i = i.cuda()
-		p_o = net(i)
-		mask = np_variable(mask)
-		if (torch.cuda.is_available()):
-			p_o = p_o.cuda()
-			mask = mask.cuda()
-		p_o.data.mul_(mask.data)
-		error = net.se_loss(i, p_o)
-		if (torch.cuda.is_available()):
-			error.data.cpu().numpy()[0] += regularizer / 2. * (np.linalg.norm(net.fcn1.weight.data.cpu().numpy(), ord = 'fro') +\
-				np.linalg.norm(net.fcn2.weight.data.cpu().numpy(), ord = 'fro'))
-		else:
-			error.data.numpy()[0] += regularizer / 2. * (np.linalg.norm(net.fcn1.weight.data.numpy(), ord = 'fro') +\
-				np.linalg.norm(net.fcn2.weight.data.numpy(), ord = 'fro'))
-		# print error
+
+		p_o = net(batch_data)
+		p_o.data.mul_(masks.data)
+		error = net.se_loss(batch_data, p_o)
+		error.data.numpy()[0] += regularizer / 2. * (V_sq_norm + W_sq_norm)
 		error.backward()
 		optimizer.step()
-		loss += error.data[0]
-	print 'average loss:', loss / len(train_data)
+
+	# for training_sample in train_data:
+	# 	optimizer.zero_grad()
+	# 	V_sq_norm = np.linalg.norm(net.fcn1.weight.data.numpy(), ord = 'fro') ** 2
+	# 	W_sq_norm = np.linalg.norm(net.fcn2.weight.data.numpy(), ord = 'fro') ** 2
+	# 	mask = np_variable(map(lambda x: (x != 0) * 1., training_sample))
+
+	# 	i = np_variable(training_sample, requires_grad = True)
+	# 	p_o = net(i)
+	# 	p_o.data.mul_(mask.data)
+	# 	error = net.se_loss(i, p_o)
+	# 	error.data.numpy()[0] += regularizer / 2. * (V_sq_norm + W_sq_norm)
+	# 	error.backward()
+	# 	optimizer.step()
+	# 	loss += error.data[0]
+	# print 'average loss:', loss / len(train_data)
 
 def test_net(net, train_data, test_data, user_AE):
 	diff = 0.0
 	for test_sample in test_data:
-		if (user_AE):
-			diff += np.abs(test_sample.rating - net(np_variable(train_data[test_sample.user_id])).data.numpy()[test_sample.item_id])
-		else:
-			diff += np.abs(test_sample.rating - net(np_variable(train_data[test_sample.item_id])).data.numpy()[test_sample.user_id])
-	return diff / (4 * len(test_data))
+		try:
+			if (user_AE):
+				diff += np.abs(test_sample.rating - net(np_variable(train_data[test_sample.user_id - 1])).data.numpy()[test_sample.item_id - 1])
+			else:
+				diff += np.abs(test_sample.rating - net(np_variable(train_data[test_sample.item_id - 1])).data.numpy()[test_sample.user_id - 1])
+		except:
+			import pdb;pdb.set_trace()
+	return diff / len(test_data)
