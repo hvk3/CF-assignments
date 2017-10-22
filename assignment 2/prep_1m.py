@@ -1,6 +1,7 @@
 import numpy as np
 import os
 import sys
+import random
 
 import aux
 
@@ -15,6 +16,7 @@ def get_gt(file, delim = '::'):
 if __name__ == '__main__':
 	root_dir = sys.argv[1]
 	ratings = get_gt(os.path.join(root_dir, 'ratings.dat'))
+	random.shuffle(ratings)
 	# import pdb;pdb.set_trace()
 	for l in xrange(5):
 		base_file = os.path.join(root_dir, 'u' + str(l + 1) + '.base')

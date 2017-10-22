@@ -1,5 +1,4 @@
 import numpy as np
-import scipy.linalg
 import sys
 import torch
 import torch.nn as nn
@@ -54,6 +53,9 @@ class user:
 		self.occupation = occupation
 		self.zip_code = zip_code
 
+def tensor_from_rating(rating):
+	return torch.Tensor(np.array([int(rating.user_id - 1), int(rating.item_id - 1), int(rating.rating)]))
+
 def read_file(filename, delimiter, class_type):
 	inputs = []
 	with open(filename, 'r') as f:
@@ -89,12 +91,10 @@ def train_net(net, train_data, regularizer):
 	train_loader = torch.utils.data.DataLoader(train_data, batch_size = 16, shuffle = True, **kwargs)
 	for _, batch_data in enumerate(train_loader):
 		masks = np_variable(np.array([map(lambda x: (x != 0) * 1., training_sample) for training_sample in batch_data]))
-		# import pdb;pdb.set_trace()
 		if (torch.cuda.is_available()):
 			batch_data = batch_data.cuda()
 			masks = masks.cuda()
 		batch_data = Variable(batch_data, requires_grad = True).float()
-		# batch_data = np_variable(batch_data.cpu().numpy(), requires_grad = True)
 		V_sq_norm = np.linalg.norm(net.fcn1.weight.data.cpu().numpy(), ord = 'fro') ** 2
 		W_sq_norm = np.linalg.norm(net.fcn2.weight.data.cpu().numpy(), ord = 'fro') ** 2
 		optimizer.zero_grad()
@@ -106,36 +106,38 @@ def train_net(net, train_data, regularizer):
 		error.backward()
 		optimizer.step()
 
-	# for training_sample in train_data:
-	# 	optimizer.zero_grad()
-	# 	V_sq_norm = np.linalg.norm(net.fcn1.weight.data.numpy(), ord = 'fro') ** 2
-	# 	W_sq_norm = np.linalg.norm(net.fcn2.weight.data.numpy(), ord = 'fro') ** 2
-	# 	mask = np_variable(map(lambda x: (x != 0) * 1., training_sample))
-
-	# 	i = np_variable(training_sample, requires_grad = True)
-	# 	p_o = net(i)
-	# 	p_o.data.mul_(mask.data)
-	# 	error = net.se_loss(i, p_o)
-	# 	error.data.numpy()[0] += regularizer / 2. * (V_sq_norm + W_sq_norm)
-	# 	error.backward()
-	# 	optimizer.step()
-	# 	loss += error.data[0]
-	# print 'average loss:', loss / len(train_data)
-
 def test_net(net, train_data, test_data, user_AE):
 	diff = 0.0
-	for test_sample in test_data:
+	if (torch.cuda.is_available()):
+		net.cuda()
+		kwargs = {'num_workers':4, 'pin_memory':True}
+	else:
+		kwargs = {}
+	test_data = map(lambda x: tensor_from_rating(x), test_data)
+	test_loader = torch.utils.data.DataLoader(test_data, batch_size = 16, shuffle = True, **kwargs)
+	for batch_data in test_loader:
 		if (user_AE):
-			var = np_variable(train_data[test_sample.user_id - 1])
+			corr_vars = np_variable(np.array(map(lambda x: train_data[int(x[0])], batch_data)))
 		else:
-			var = np_variable(train_data[test_sample.item_id - 1])
+			corr_vars = np_variable(np.array(map(lambda x: train_data[int(x[1])], batch_data)))
+		masks = torch.zeros(corr_vars.size())
+		for i in xrange(len(batch_data)):
+			try:
+				if (user_AE):
+					masks[i][int(batch_data[i][1])] = 1.
+				else:
+					masks[i][int(batch_data[i][0])] = 1.
+			except:
+				import pdb;pdb.set_trace()
+		gt_ratings = np_variable(np.array(map(lambda x: x[2], batch_data)))
 		if (torch.cuda.is_available()):
-			var = var.cuda()
-		try:
-			if (user_AE):
-				diff += np.abs(test_sample.rating - net(var).data.cpu().numpy()[test_sample.item_id - 1])
-			else:
-				diff += np.abs(test_sample.rating - net(var).data.cpu().numpy()[test_sample.user_id - 1])
-		except:
-			import pdb;pdb.set_trace()
+			masks = Variable(masks).float().cuda()
+			corr_vars = corr_vars.cuda()
+			gt_ratings = gt_ratings.cuda()
+		predictions = net(corr_vars)
+		predictions.data.clamp_(1, 5)
+		predictions.data.mul_(masks.data)
+		final_predictions = torch.cumsum(predictions, dim = 1)[:, -1]
+		errors = torch.abs(final_predictions.data - gt_ratings.data)
+		diff += torch.sum(errors)
 	return diff / len(test_data)
