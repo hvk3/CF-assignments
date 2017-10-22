@@ -89,18 +89,20 @@ def train_net(net, train_data, regularizer):
 	train_loader = torch.utils.data.DataLoader(train_data, batch_size = 16, shuffle = True, **kwargs)
 	for _, batch_data in enumerate(train_loader):
 		masks = np_variable(np.array([map(lambda x: (x != 0) * 1., training_sample) for training_sample in batch_data]))
-		import pdb;pdb.set_trace()
+		# import pdb;pdb.set_trace()
 		if (torch.cuda.is_available()):
 			batch_data = batch_data.cuda()
-		batch_data = np_variable(batch_data.numpy(), requires_grad = True)
-		V_sq_norm = np.linalg.norm(net.fcn1.weight.data.numpy(), ord = 'fro') ** 2
-		W_sq_norm = np.linalg.norm(net.fcn2.weight.data.numpy(), ord = 'fro') ** 2
+			masks = masks.cuda()
+		batch_data = Variable(batch_data, requires_grad = True).float()
+		# batch_data = np_variable(batch_data.cpu().numpy(), requires_grad = True)
+		V_sq_norm = np.linalg.norm(net.fcn1.weight.data.cpu().numpy(), ord = 'fro') ** 2
+		W_sq_norm = np.linalg.norm(net.fcn2.weight.data.cpu().numpy(), ord = 'fro') ** 2
 		optimizer.zero_grad()
 
 		p_o = net(batch_data)
 		p_o.data.mul_(masks.data)
 		error = net.se_loss(batch_data, p_o)
-		error.data.numpy()[0] += regularizer / 2. * (V_sq_norm + W_sq_norm)
+		error.data += regularizer / 2. * (V_sq_norm + W_sq_norm)
 		error.backward()
 		optimizer.step()
 
@@ -123,11 +125,17 @@ def train_net(net, train_data, regularizer):
 def test_net(net, train_data, test_data, user_AE):
 	diff = 0.0
 	for test_sample in test_data:
+		if (user_AE):
+			var = np_variable(train_data[test_sample.user_id - 1])
+		else:
+			var = np_variable(train_data[test_sample.item_id - 1])
+		if (torch.cuda.is_available()):
+			var = var.cuda()
 		try:
 			if (user_AE):
-				diff += np.abs(test_sample.rating - net(np_variable(train_data[test_sample.user_id - 1])).data.numpy()[test_sample.item_id - 1])
+				diff += np.abs(test_sample.rating - net(var).data.cpu().numpy()[test_sample.item_id - 1])
 			else:
-				diff += np.abs(test_sample.rating - net(np_variable(train_data[test_sample.item_id - 1])).data.numpy()[test_sample.user_id - 1])
+				diff += np.abs(test_sample.rating - net(var).data.cpu().numpy()[test_sample.user_id - 1])
 		except:
 			import pdb;pdb.set_trace()
 	return diff / len(test_data)
